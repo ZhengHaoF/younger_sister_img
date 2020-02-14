@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.onload = function () {
+            run()
+        }
+        function run() {
+            var json_t;
+            var url = "img_url.json"/*json文件url，本地的就写本地的位置，如果是服务器的就写服务器的路径*/
+            var request = new XMLHttpRequest();
+            request.open("get", url);/*设置请求方法与路径*/
+            request.send(null);/*不发送数据到服务器*/
+            request.onload = function () {/*XHR对象获取到返回信息后执行*/
+                json_t = JSON.parse(request.responseText);
+                var girl_id = Math.floor(Math.random()*json_t.data.length);
+                var url_girl_id = json_t.data[girl_id].ID
+                var img_id = json_t.data[girl_id].num
+                var url_img_id = Math.floor(Math.random()*img_id) +1;
+                var url = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" + url_girl_id + "_" + url_img_id + ".jpg"
+                console.log(url)
+                document.getElementById("g_img").innerHTML =  "<img src='" + url +"'width='520px'>"
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="g_img">正在加载···</div>
+</body>
+</html>
