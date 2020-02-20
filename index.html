@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet" />
     <script>
+        var img_number_card;
         window.onload = function () {
-            run()
+            get_img()
         }
-        function run() {
+        function get_img() {
             var json_t;
             var url = "img_url.json"/*json文件url，本地的就写本地的位置，如果是服务器的就写服务器的路径*/
             var request = new XMLHttpRequest();
@@ -19,14 +22,36 @@
                 var url_girl_id = json_t.data[girl_id].ID
                 var img_id = json_t.data[girl_id].num
                 var url_img_id = Math.floor(Math.random()*img_id) +1;
-                var url = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" + url_girl_id + "_" + url_img_id + ".jpg"
+                img_number_card = url_girl_id + "_" + url_img_id;
+                var url = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" + img_number_card + ".jpg"
                 console.log(url)
-                document.getElementById("g_img").innerHTML =  "<img src='" + url +"'width='520px'>"
+                document.getElementById("g_img").innerHTML =  "<img src='" + url +"' style='max-width: 600px;max-height: 500px'>"
             }
+        }
+
+        function run(num) {
+            mui.toast("图片编号"+img_number_card +"已经提交",{ duration:'500ms', type:'div' });
+            mui.post('./get_comment.php',{
+                    "img_number_card":img_number_card,      //图片ID
+                    "img_comment":num //图片评论
+                },function(data){
+                    //服务器返回响应，根据响应结果，分析是否登录成功；
+                    console.log(data)
+                }
+            );
+            get_img()
+
         }
     </script>
 </head>
 <body>
-<div id="g_img">正在加载···</div>
+<center>
+    <div>
+        <div id="g_img">正在加载···</div>
+        <button type="button" class="mui-btn mui-btn-danger" onclick="run(this.value)" value="1">这张我喜欢</button>
+        <button type="button" class="mui-btn mui-btn-warning" onclick="run(this.value)" value="2">这张一般般</button>
+        <button type="button" class="mui-btn mui-btn-royal" onclick="run(this.value)" value="3">这张不太行</button>
+    </div>
+</center>
 </body>
 </html>
