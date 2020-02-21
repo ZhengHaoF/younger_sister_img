@@ -1,11 +1,32 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+   <!--//手机端自适应--> <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <!--//手机端自适应--><meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>图片辨认</title>
     <script src="js/mui.min.js"></script>
     <link href="css/mui.min.css" rel="stylesheet" />
     <script>
+        //手机端自适应
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>=750){
+                        docEl.style.fontSize = '100px';
+                    }else{
+                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                    }
+                };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+
+        //
         var img_number_card;
         window.onload = function () {
             get_img()
@@ -25,7 +46,9 @@
                 img_number_card = url_girl_id + "_" + url_img_id;
                 var url = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" + img_number_card + ".jpg"
                 console.log(url)
-                document.getElementById("g_img").innerHTML =  "<img src='" + url +"' style='max-width: 600px;max-height: 500px'>"
+                var w  =window.outerWidth;
+                var h = window.outerHeight - 150;
+                document.getElementById("g_img").innerHTML =  "<img src='" + url +"' style='max-width: "+ w + "px" + ";max-height: " + h + "px" + "'>"
             }
         }
 
@@ -52,6 +75,7 @@
         <button type="button" class="mui-btn mui-btn-warning" onclick="run(this.value)" value="2">这张一般般</button>
         <button type="button" class="mui-btn mui-btn-royal" onclick="run(this.value)" value="3">这张不太行</button>
     </div>
+    <p>如发现色情、暴力等违法图片，请联系站长举报</p>
 </center>
 </body>
 </html>
