@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>精品区</title>
+    <script src="../js/mui.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <link rel='stylesheet' type='text/css' href='css/default.css'>
+    <link rel='stylesheet' type='text/css' href='css/component.css' />
+    <!--//手机端自适应--> <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <!--//手机端自适应--><meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script>
+        //手机端自适应
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>=750){
+                        docEl.style.fontSize = '100px';
+                    }else{
+                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                    }
+                };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+    <script>
+            //获取图片数量
+            var nice_img_num = 0; //图片数量
+            var img_jpg = ""; //图片HTML
+            var nice_img_url ="";
+            //统计瀑布流图片个数
+            mui.get("./get_nice_img_num.php",function (data) {
+                nice_img_num = Number(data); //转数值形
+                mui.get("./get_nice_img.php",function (data2) { //获取图片地址
+                    nice_img_url = $.parseJSON(data2);
+                    for (var i=0;i<=nice_img_num - 1;i++){
+                        img_jpg = img_jpg + "<li class='grid__item'>" +
+                            "                <a class='grid__link' target='_blank' href='" + nice_img_url[i] + "'>" +
+                            "                    <img class='grid__img' src='" + nice_img_url[i] + "' alt='Some image' />" +
+                            "                    <h3 class='grid__item-title'>图片"+ i  + "</h3>" +
+                            "                </a>" +
+                            "            </li>"
+                    }
+                    document.getElementById("grid").innerHTML = img_jpg;
+
+                });
+            });
+    </script>
+</head>
+<body>
+<section class='page page--mover'>
+</section>
+<section class='page page--static'>
+    <ul class='grid' id="grid"></ul>
+</section>
+</body>
+</html>

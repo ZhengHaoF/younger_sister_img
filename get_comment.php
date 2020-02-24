@@ -22,7 +22,11 @@ if ($img_number_card!=""){
         case "3":
             mysqli_query($conn,"UPDATE img_praise SET tread = tread +1 WHERE img_id = '$img_number_card'");
             break;
+        case "4":
+            mysqli_query($conn,"UPDATE img_praise SET praise = praise +1 WHERE img_id = '$img_number_card'");
+            break; //4是查看图集，也算进喜欢里
     }
+    echo "成功";
 }else{
     echo "无参数";
 }

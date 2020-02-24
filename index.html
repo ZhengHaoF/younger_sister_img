@@ -8,6 +8,8 @@
     <script src="js/mui.min.js"></script>
     <link href="css/mui.min.css" rel="stylesheet" />
     <script>
+        window.url_girl_id;//套图编号
+        window.img_id;//一套图片的数量
         //手机端自适应
         (function (doc, win) {
             var docEl = doc.documentElement,
@@ -40,30 +42,34 @@
             request.onload = function () {/*XHR对象获取到返回信息后执行*/
                 json_t = JSON.parse(request.responseText);
                 var girl_id = Math.floor(Math.random()*json_t.data.length);
-                var url_girl_id = json_t.data[girl_id].ID
-                var img_id = json_t.data[girl_id].num
+                window.url_girl_id = json_t.data[girl_id].ID; //套图编号
+                window.img_id = json_t.data[girl_id].num;  //一套图片的数量
                 var url_img_id = Math.floor(Math.random()*img_id) +1;
-                img_number_card = url_girl_id + "_" + url_img_id;
+                var img_number_card = url_girl_id + "_" + url_img_id;
                 var url = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" + img_number_card + ".jpg"
                 console.log(url)
                 var w  =window.outerWidth;
                 var h = window.outerHeight - 150;
                 document.getElementById("g_img").innerHTML =  "<img src='" + url +"' style='max-width: "+ w + "px" + ";max-height: " + h + "px" + "'>"
+                document.getElementById("img_quantity").innerText = img_id + "张";
             }
         }
 
-        function run(num) {
-            mui.toast("图片编号"+img_number_card +"已经提交",{ duration:'500ms', type:'div' });
+        function run(img_num) {
+            mui.toast("图片编号"+ window.url_girl_id + "_" +window.img_id +"已经提交",{ duration:'500ms', type:'div' });
+            if (img_num==4){
+
+                    window.open(window.location.protocol+ "//" + window.location.host + "/younger_sister_img//img_group.php?" + "img_group=" + url_girl_id + "&img_group_num=" + img_id )
+            }
             mui.post('./get_comment.php',{
                     "img_number_card":img_number_card,      //图片ID
-                    "img_comment":num //图片评论
+                    "img_comment":img_num //图片评论
                 },function(data){
                     //服务器返回响应，根据响应结果，分析是否登录成功；
                     console.log(data)
                 }
             );
             get_img()
-
         }
     </script>
 </head>
@@ -71,9 +77,15 @@
 <center>
     <div>
         <div id="g_img">正在加载···</div>
-        <button type="button" class="mui-btn mui-btn-danger" onclick="run(this.value)" value="1">这张我喜欢</button>
-        <button type="button" class="mui-btn mui-btn-warning" onclick="run(this.value)" value="2">这张一般般</button>
-        <button type="button" class="mui-btn mui-btn-royal" onclick="run(this.value)" value="3">这张不太行</button>
+        <button type="button" class="mui-btn mui-btn-danger" onclick="run(this.value)" value="1">超级好看</button>
+        <button type="button" class="mui-btn mui-btn-warning" onclick="run(this.value)" value="2">十分好看</button>
+        <button type="button" class="mui-btn mui-btn-royal" onclick="run(this.value)" value="3">挺好看</button>
+        <div style="padding: 3px">
+            <button type="button" class="mui-btn mui-btn-success" onclick="run(this.value)" value="4">查看她的图集
+                <span class="mui-badge mui-badge-primary" id="img_quantity">null</span>
+            </button>
+            <a href="./nice_img" target="_blank"><button type="button" class="mui-btn mui-btn-primary">精品区</button></a>
+        </div>
     </div>
     <p>如发现色情、暴力等违法图片，请联系站长举报</p>
 </center>
