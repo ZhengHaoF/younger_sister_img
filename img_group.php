@@ -8,7 +8,7 @@ for ($i=1;$i<=$img_group_num;$i++){
     //echo "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" . $img_number_card ."<br>" ;
     $img_url = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" . $img_number_card;
     $x = $x."            <li class='grid__item'>
-                <a class='grid__link' href='#'>
+                <a class='grid__link' href='$img_url'>
                     <img class='grid__img' src='$img_url' alt='Some image' />
                     <h3 class='grid__item-title'>图片$i</h3>
                 </a>
