@@ -30,3 +30,4 @@ if ($img_number_card!=""){
 }else{
     echo "无参数";
 }
+mysqli_close($conn); //关闭数据库连接

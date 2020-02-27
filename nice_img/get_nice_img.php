@@ -14,3 +14,4 @@ for ($i=0;$i<=mysqli_num_rows($res) - 1;$i++){
 }
 
 echo "{" . "\"url\":" . json_encode($x) . ",\"praise\":" . json_encode($y) . "}";
+mysqli_close($conn); //关闭数据库连接
