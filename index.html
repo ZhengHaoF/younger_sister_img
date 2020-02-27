@@ -47,7 +47,7 @@
                 var url_img_id = Math.floor(Math.random()*img_id) +1;
                 var img_number_card = url_girl_id + "_" + url_img_id;
                 var url = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" + img_number_card + ".jpg"
-                console.log(url)
+                console.log(url);
                 var w  =window.outerWidth;
                 var h = window.outerHeight - 150;
                 document.getElementById("g_img").innerHTML =  "<img src='" + url +"' style='max-width: "+ w + "px" + ";max-height: " + h + "px" + "'>"
@@ -59,10 +59,12 @@
             mui.toast("图片编号"+ window.url_girl_id + "_" +window.img_id +"已经提交",{ duration:'500ms', type:'div' });
             if (img_num==4){
 
-                    window.open(window.location.protocol+ "//" + window.location.host + "/younger_sister_img//img_group.php?" + "img_group=" + url_girl_id + "&img_group_num=" + img_id )
+                    window.open(window.location.protocol+ "//" + window.location.host + "/younger_sister_img/img_group.php?" + "img_group=" + url_girl_id + "&img_group_num=" + img_id )
             }
+            console.log(window.url_girl_id + "_" +window.img_id);
+            console.log(img_num);
             mui.post('./get_comment.php',{
-                    "img_number_card":img_number_card,      //图片ID
+                    "img_number_card":window.url_girl_id + "_" +window.img_id,      //图片ID
                     "img_comment":img_num //图片评论
                 },function(data){
                     //服务器返回响应，根据响应结果，分析是否登录成功；
