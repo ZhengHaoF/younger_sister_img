@@ -8,6 +8,7 @@
     <script src="../js/jquery-1.11.0.min.js"></script>
     <link rel='stylesheet' type='text/css' href='css/default.css'>
     <link rel='stylesheet' type='text/css' href='css/component.css' />
+    <script src="../js/mui.min.js"></script>
     <!--//手机端自适应--> <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <!--//手机端自适应--><meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <script>
@@ -28,27 +29,45 @@
             win.addEventListener(resizeEvt, recalc, false);
             doc.addEventListener('DOMContentLoaded', recalc, false);
         })(document, window);
+
+        function run(img_name,img_num) {
+            mui.toast("图片编号"+ img_name +"已经提交",{ duration:'500ms', type:'div' });
+            mui.post('../get_comment.php',{
+                    "img_number_card":img_name,      //图片ID
+                    "img_comment":img_num //图片评论
+                },function(data){
+                    //服务器返回响应，根据响应结果，分析是否登录成功；
+                    console.log(data)
+                }
+            );
+            get_img()
+        }
     </script>
     <script>
             //获取图片数量
             var nice_img_num = 0; //图片数量
             var img_jpg = ""; //图片HTML
-            var nice_img_url ="";
+            var nice_img_name;
+            var nice_img_praise;
             //统计瀑布流图片个数
             mui.get("./get_nice_img_num.php",function (data) {
                 nice_img_num = Number(data); //转数值形
                 mui.get("./get_nice_img.php",function (data2) { //获取图片地址
-                    nice_img_url = $.parseJSON(data2).url;//图片URL
+                    nice_img_name = $.parseJSON(data2).name;//图片名称
                     nice_img_praise = $.parseJSON(data2).praise; //点赞人数
-                    console.log(nice_img_url);
+                    console.log(nice_img_name);
                     for (var i=0;i<=nice_img_num - 1;i++){
+                        var  nice_img_url =  "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" + nice_img_name[i] + ".jpg";
                         img_jpg = img_jpg + "<li class='grid__item'>" +
-                            "                <a class='grid__link' target='_blank' href='" + nice_img_url[i] + "'>" +
-                            "                    <img class='grid__img' src='" + nice_img_url[i] + "' alt='Some image' />" +
-                            "                    <h3 class='grid__item-title'>图片"+ i  + "</h3>" +
-                            "<span>" + nice_img_praise[i]  + "人觉得好看</span>"+
-                            "                </a>" +
-                            "            </li>"
+                                "<div class='grid__link'>"+
+                            "                <a  target='_blank' href='" + nice_img_url + "'>" +
+                            "                    <img class='grid__img' src='" + nice_img_url + "' alt='Some image' />" +
+                            "                    <h3 class='grid__item-title'>图片"+ i  + "<br>"+ "</h3>" +
+                            "</a>" +
+                            nice_img_praise[i]  + "人觉得好看"+
+                            "<button type='button' style='margin: 0px 0px 5px 10px ' class='mui-btn mui-btn-royal' onclick='run(\""+  nice_img_name[i] + "\",this.value)' value='3'>过奖了</button>"+
+                            "</div>" +
+                            "</li>"
                     }
                     document.getElementById("grid").innerHTML = img_jpg;
 
@@ -57,6 +76,7 @@
     </script>
 </head>
 <body>
+
 <section class='page page--mover'>
 </section>
 <section class='page page--static'>

@@ -9,9 +9,9 @@ $y = array();
 for ($i=0;$i<=mysqli_num_rows($res) - 1;$i++){
     $item = mysqli_fetch_row($res);
     //echo "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" . $item[0]. ".jpg" . "<br/>";
-    $x[$i] = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" . $item[0]. ".jpg";
+    $x[$i] = $item[0];
     $y[$i] = $item[1];
 }
 
-echo "{" . "\"url\":" . json_encode($x) . ",\"praise\":" . json_encode($y) . "}";
+echo "{" . "\"name\":" . json_encode($x) . ",\"praise\":" . json_encode($y) . "}";
 mysqli_close($conn); //关闭数据库连接
