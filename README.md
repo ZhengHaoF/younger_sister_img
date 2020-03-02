@@ -17,7 +17,7 @@ younger sister img是我正在维护的一个项目，正在更新中
 ### 文件说明：
 index： 网站主页
 #### img_praise.sql： 
-* 导出的图片数据库，最近导出是2020.2.27
+* 导出的图片数据库
 #### min2.py：
 * Python爬虫
 #### img_url.json：
