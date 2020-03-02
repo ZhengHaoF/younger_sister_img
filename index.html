@@ -9,7 +9,8 @@
     <link href="css/mui.min.css" rel="stylesheet" />
     <script>
         window.url_girl_id;//套图编号
-        window.img_id;//一套图片的数量
+        window.img_id; //一套图片的数量
+        window.img_number_card; // 具体图片名称
         //手机端自适应
         (function (doc, win) {
             var docEl = doc.documentElement,
@@ -28,8 +29,6 @@
             doc.addEventListener('DOMContentLoaded', recalc, false);
         })(document, window);
 
-        //
-        var img_number_card;
         window.onload = function () {
             get_img()
         }
@@ -45,7 +44,7 @@
                 window.url_girl_id = json_t.data[girl_id].ID; //套图编号
                 window.img_id = json_t.data[girl_id].num;  //一套图片的数量
                 var url_img_id = Math.floor(Math.random()*img_id) +1;
-                var img_number_card = url_girl_id + "_" + url_img_id;
+                img_number_card = url_girl_id + "_" + url_img_id;  //具体图片名称
                 var url = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" + img_number_card + ".jpg"
                 console.log(url);
                 var w  =window.outerWidth;
@@ -64,7 +63,7 @@
             console.log(window.url_girl_id + "_" +window.img_id);
             console.log(img_num);
             mui.post('./get_comment.php',{
-                    "img_number_card":window.url_girl_id + "_" +window.img_id,      //图片ID
+                    "img_number_card":window.img_number_card,      //图片ID
                     "img_comment":img_num //图片评论
                 },function(data){
                     //服务器返回响应，根据响应结果，分析是否登录成功；
