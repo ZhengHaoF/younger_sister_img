@@ -3,7 +3,7 @@ require ('../config.php');
 $conn = new mysqli($MySqlHost,$MySqlUser,$MySqlPwd,$MySqlDatabaseName);
 mysqli_query($conn, "set character set 'utf8'");//读库
 mysqli_query($conn,"set names 'utf8'");//写库
-$res = mysqli_query($conn,"SELECT * FROM img_praise WHERE praise > tread");
+$res = mysqli_query($conn,"SELECT * FROM img_praise WHERE praise > tread and praise > medium");
 $x = array();
 $y = array();
 for ($i=0;$i<=mysqli_num_rows($res) - 1;$i++){
