@@ -50,9 +50,9 @@
             var nice_img_name;
             var nice_img_praise;
             //统计瀑布流图片个数
-            mui.get("./get_nice_img_num.php",function (data) {
+            mui.get("../API/get_nice_img_num.php",function (data) {
                 nice_img_num = Number(data); //转数值形
-                mui.get("./get_nice_img.php",function (data2) { //获取图片地址
+                mui.get("../API/get_nice_img.php",function (data2) { //获取图片地址
                     nice_img_name = $.parseJSON(data2).name;//图片名称
                     nice_img_praise = $.parseJSON(data2).praise; //点赞人数
                     console.log(nice_img_name);

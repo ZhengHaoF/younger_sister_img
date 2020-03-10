@@ -1,5 +1,6 @@
 <?php
-require ('../config.php');
+//获取nice_img图片数量
+require('../config.php');
 $conn = new mysqli($MySqlHost,$MySqlUser,$MySqlPwd,$MySqlDatabaseName);
 mysqli_query($conn, "set character set 'utf8'");//读库
 mysqli_query($conn,"set names 'utf8'");//写库
