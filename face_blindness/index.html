@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!--//手机端自适应-->
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <!--//手机端自适应-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Title</title>
+    <script src="../js/mui.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script>
+        //手机端自适应
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if (clientWidth >= 750) {
+                        docEl.style.fontSize = '100px';
+                    } else {
+                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                    }
+                };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+    <script>
+        var img_min =10; //正确的图片数量
+        var img_max = 20; //选择的图片数量
+        var nice_img_all = "";//所有图片json
+        var img_list = []; //随机抽取的图片编号
+        var img_list_url = []; //图片URL
+        var img_list_t = [];//第二次生成的图片编号数组
+        var max_num = 0;//最多图片数量
+        var yes_num =0; //正确图片的数量
+        window.onload = function () {
+            var message = "点击确定后，系统将随机展示10张图片\n请你在记住这些图片后点击“我已牢记”";
+            var title = "图片记忆测试说明";
+            var bt = ["确定"];
+            mui.confirm(message, title, bt, function () {
+                getNum()
+            })
+        };
+
+        function getNum() {
+            mui.get("../API/get_nice_img.php", function (data) {
+                nice_img_all = $.parseJSON(data).name;
+                max_num = nice_img_all.length;
+                var img_box = "";
+                var rnd = round_num(0, max_num, img_min);
+                for (var i = 0; i <= img_min-1; i++) {
+                    img_list[i] = nice_img_all[rnd[i]];
+                    img_list_url[i] = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" + img_list[i] + ".jpg";
+                    img_box = img_box + "<img alt='有个小概率BUG导致不能显示' src='" + img_list_url[i] + "' style='width: 30%;margin: 5px;float: left'>"
+                    console.log(img_list_url[i])
+                }
+                document.getElementById("box").innerHTML = img_box;
+                img_list_t = JSON.parse(JSON.stringify(img_list));
+                ; //不要修改原来的东西，直接赋值会导致b和a指向同一个东西，所以用JSON.parse(JSON.stringify(img_list))来水一下
+            })
+        }
+
+        function run() {//点击我已牢记后
+            var rnd = round_num(0, max_num, img_max - img_min);
+            for (var j = img_min; j <= img_max-1; j++) {
+                img_list_t[j] = nice_img_all[rnd[j - img_min]];
+                img_list_url[j] = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" + nice_img_all[rnd[j - 10]] + ".jpg";
+            }
+            var img_box = "";
+            var rnd = round_num(0, img_max, img_max);
+            for (var k = 0; k <= 19; k++) { //在网页中显示出来
+                img_box = img_box + "<img alt='有个小概率BUG导致不能显示' onclick='verification(this.id)' id='" + img_list_t[rnd[k]] + "' src='" + img_list_url[rnd[k]] + "'style='width: 30%;margin: 5px;float: left'>"
+            }
+            document.getElementById("box").innerHTML = img_box;
+            document.getElementById("bt").innerText = "";
+            var message = "请回忆上次出现过的图片，并点击它";
+            var title = "图片记忆测试开始";
+            var bt = ["确定"];
+            mui.confirm(message, title, bt, function () {
+            })
+        }
+
+        function verification(name) { //验证图片是否存在过
+            if (img_list.indexOf(name) != -1) {
+                    document.getElementById(name).src="./img/yes.jpg";
+                    yes_num++ //做对数量增加
+                if (yes_num==10){
+                    var message = "全部答对了！\n点击确定刷新网页";
+                    var title = "完成";
+                    var bt = ["确定"];
+                    mui.confirm(message, title, bt, function () {
+                        location.reload()//刷新
+                    })
+                }
+            } else {
+                var message = "没有这张哦";
+                var title = "错误";
+                var bt = ["确定"];
+                mui.confirm(message, title, bt, function () {})
+            }
+        }
+
+        //产生不重复的数组round_num(最小值, 最大值, 产生的个数)
+        function round_num(min, max, num) {
+            if (num > max - min) {
+                console.log("错误！产生的数字大于最大值-最小值")
+            } else {
+                var list = [];
+                for (var list_indx = 0; list_indx <= num - 1; list_indx++) {
+                    var r_num = Math.floor(Math.random() * (max + 1 - min)) + min; //生成min -max 的数字
+                    if (list.indexOf(r_num) != -1) {
+                        list_indx--; //如果有重复的就减少
+                    } else {
+                        list[list_indx] = r_num;
+                    }
+                }
+                return list;
+            }
+        }
+    </script>
+</head>
+<body>
+<center>
+    <div id="box">
+    </div>
+    <div style="clear: left;" id="bt">
+        <button type="button" class="mui-btn mui-btn-warning" onclick="run()" tyle="width: 50%;height: 50px;">我已牢记
+        </button>
+    </div>
+</center>
+</body>
+</html>
