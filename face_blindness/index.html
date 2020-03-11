@@ -76,9 +76,6 @@
             var rnd = round_num(0, img_max, img_max-1);
             for (var k = 0; k <= img_max-1; k++) { //在网页中显示出来
                 img_box = img_box + "<img alt='有个小概率BUG导致不能显示' onclick='verification(this.id)' id='" + img_list_t[rnd[k]] + "' src='" + img_list_url[rnd[k]] + "'style='width: 30%;margin: 5px;float: left'>"
-                console.log(img_list_t[rnd[k]]);
-                console.log(rnd[k])
-                console.log(img_list_url[rnd[k]]);
             }
             document.getElementById("box").innerHTML = img_box;
             document.getElementById("bt").innerText = "";
