@@ -7,7 +7,7 @@
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
     <!--//手机端自适应-->
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Title</title>
+    <title>记忆测试</title>
     <script src="../js/mui.min.js"></script>
     <link href="../css/mui.min.css" rel="stylesheet"/>
     <script src="../js/jquery-1.11.0.min.js"></script>
@@ -58,7 +58,7 @@
                     img_list[i] = nice_img_all[rnd[i]];
                     img_list_url[i] = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" + img_list[i] + ".jpg";
                     img_box = img_box + "<img alt='有个小概率BUG导致不能显示' src='" + img_list_url[i] + "' style='width: 30%;margin: 5px;float: left'>"
-                    console.log(img_list_url[i])
+
                 }
                 document.getElementById("box").innerHTML = img_box;
                 img_list_t = JSON.parse(JSON.stringify(img_list));
@@ -73,9 +73,11 @@
                 img_list_url[j] = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" + nice_img_all[rnd[j - 10]] + ".jpg";
             }
             var img_box = "";
-            var rnd = round_num(0, img_max, img_max-1);
+            var rnd = round_num(0, img_max-1, img_max);
             for (var k = 0; k <= img_max-1; k++) { //在网页中显示出来
                 img_box = img_box + "<img alt='有个小概率BUG导致不能显示' onclick='verification(this.id)' id='" + img_list_t[rnd[k]] + "' src='" + img_list_url[rnd[k]] + "'style='width: 30%;margin: 5px;float: left'>"
+                console.log(rnd[k])
+                console.log(img_list_t[rnd[k]])
             }
             document.getElementById("box").innerHTML = img_box;
             document.getElementById("bt").innerText = "";
@@ -108,7 +110,7 @@
 
         //产生不重复的数组round_num(最小值, 最大值, 产生的个数)
         function round_num(min, max, num) {
-            if (num > max - min) {
+            if (num > max - min + 1) {  //1,2,3有3-1+1个数字
                 console.log("错误！产生的数字大于最大值-最小值")
             } else {
                 var list = [];
