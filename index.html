@@ -38,6 +38,7 @@
         }
 
         function get_img() {
+            //document.getElementById("img_tip").innerText = "正在识别···";
             var json_t;
             var url = "img_url.json"/*json文件url，本地的就写本地的位置，如果是服务器的就写服务器的路径*/
             var request = new XMLHttpRequest();
@@ -57,7 +58,7 @@
                 var h = window.outerHeight - 200;
                 document.getElementById("g_img").innerHTML = "<img src='" + url + "' style='max-width: " + w + "px" + ";max-height: " + h + "px" + "'>"
                 document.getElementById("img_quantity").innerText = img_id + "张";
-                get_img_tip("younger_sister_img/"+img_number_card+".jpg"); //获取图像标签
+                //get_img_tip("younger_sister_img/"+img_number_card+".jpg"); //获取图像标签//用处不大暂时放弃
             }
 
         }
@@ -75,7 +76,9 @@
             });
         }
         */
+        /*
         //获取图像标签
+        用处不大，暂时放弃
         function get_img_tip(img_name) {
             var all_tip = "";//所有标签
             mui.post("./API/img_discern.php", {
@@ -90,6 +93,7 @@
                 document.getElementById("img_tip").innerText =all_tip
             })
         }
+        */
 
 
         function run(img_num) {
