@@ -42,6 +42,19 @@
             );
             get_img()
         }
+        function go_img_group(img_name) {
+            //http://localhost/younger_sister_img/API/return_img_group_num.php?group=7168
+            var img_grpup =  img_name.substring(0,img_name.indexOf("_"))
+            mui.get('../API/return_img_group_num.php',{
+                    "group":img_grpup,
+                },function(data){
+                    //服务器返回JSON
+                    //console.log(data)
+                    //console.log(JSON.parse(data).num)
+                window.open(window.location.protocol + "//" + window.location.host + "/younger_sister_img/img_group.php?" + "img_group=" + img_grpup + "&img_group_num=" + JSON.parse(data).num)
+                }
+            );
+        }
     </script>
     <script>
             //获取图片数量
@@ -66,11 +79,11 @@
                             "</a>" +
                             nice_img_praise[i]  + "人觉得好看"+
                             "<button type='button' style='margin: 0px 0px 5px 10px ' class='mui-btn mui-btn-royal' onclick='run(\""+  nice_img_name[i] + "\",this.value)' value='2'>过奖了</button>"+
+                            "<button type='button' style='margin: 0px 0px 5px 10px ' class='mui-btn mui-btn-danger' onclick='go_img_group(\""+ nice_img_name[i] +"\")'>查看图集</button>"+
                             "</div>" +
                             "</li>"
                     }
                     document.getElementById("grid").innerHTML = img_jpg;
-
                 });
             });
     </script>
