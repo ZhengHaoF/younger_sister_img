@@ -11,11 +11,6 @@ younger sister img是我正在维护的一个项目，正在更新中
   现在处于第二阶段：
   通过爬虫min2.py获取网络上的大量图片，图片存放在腾讯云对象储存中，并建立一个数据库来存放每张图片的评价
   
-百度网盘压缩包：
-链接：https://pan.baidu.com/s/1aEAOQwGaBPwVCyOqwGAvTg 
-提取码：j9bb
-  
-  百度云中有完整的压缩包：
 ### 文件说明：
 index： 网站主页
 #### img_praise.sql： 

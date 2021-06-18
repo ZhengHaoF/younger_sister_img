@@ -1,4 +1,3 @@
-
 <?php
 $img_group = $_GET['img_group'];
 $img_group_num = $_GET['img_group_num'];
