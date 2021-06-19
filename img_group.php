@@ -4,8 +4,7 @@ $img_group_num = $_GET['img_group_num'];
 $x = "";
 for ($i=1;$i<=$img_group_num;$i++){
     $img_number_card = $img_group . "_" . $i . ".jpg";
-    //echo "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" . $img_number_card ."<br>" ;
-    $img_url = "https://web-1253780623.cos.ap-shanghai.myqcloud.com/younger_sister_img/" . $img_number_card;
+    $img_url = "https://file.zhfblog.top/younger_sister_img/" . $img_number_card;
     $x = $x."            <li class='grid__item'>
                 <a class='grid__link' href='$img_url'>
                     <img class='grid__img' src='$img_url' alt='Some image' />
