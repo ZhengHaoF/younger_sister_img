@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <!--//手机端自适应-->
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <!--//手机端自适应-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="UTF-8">
+    <title>桜桃喵-一生资源计划</title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <style>
+        #img_img {
+            width: 50%;
+        }
+
+        @media screen and (max-width: 1200px) {
+            #img_img {
+                width: 85%;
+            }
+        }
+    </style>
+    <script>
+        let img_url = ""; //图片URL
+        let img_name = ""; //图片名称
+        let img_organization = ""; //图集名称
+        let imgObj = new Image(); //图片对象
+        let group = ""; //拍摄团队
+        window.onload = function () {
+            organization = decodeURI(getQueryVariable("organization"));
+            console.log(group);
+            get_img()
+        }
+
+        imgObj.onload = () => {
+            mui("#next_img").button('reset');//切换为reset状态(即重置为原始的button)
+        }
+        function get_img() {
+            mui.get("./api/get_img.php", {
+                "num": 1,
+                "organization": organization,
+                "random": Math.floor(Math.random() * 1000000) //随机一个参数
+            }, function (data) {
+                if (JSON.parse(data)['status'] == 200) {
+                    data_json = JSON.parse(data);
+                    img_url = data_json['data'][0]['img_url'];
+                    img_name = data_json['data'][0]['img_name'];
+                    img_organization = img_name.split("_")[0]; //图集名
+                    imgObj.src = img_url;
+                    imgObj.id = "img_img"
+                    document.getElementById("g_img").appendChild(imgObj)
+                    mui.get("./api/get_img_group_num.php", {
+                        "img_organization": img_organization,
+                        "organization": organization
+                    }, function (data) {
+                        if (JSON.parse(data)['status'] == 200) {
+                            document.getElementById("img_quantity").innerText = JSON.parse(data)['data']['num'];
+                        }
+                    })
+                } else {
+                    alert("Error")
+                }
+            })
+        }
+
+        function run(e) {
+            if (e.value == 3) {
+                //next
+                get_img()
+                mui(e).button('loading');//切换为loading状态
+
+            } else if (e.value == 4) {
+                window.open('./img_group.html' + "?organization=" + organization + "&" + "img_organization="  + img_organization);
+            }
+        }
+
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) {
+                    return pair[1];
+                }
+            }
+            return false;
+        }
+
+    </script>
+</head>
+
+<body>
+    <center>
+        <div>
+            <div id="g_img"></div>
+            <p id="img_tip"></p>
+            <button type="button" class="mui-btn mui-btn-royal" style="width: 150px;"
+                data-loading-icon="mui-spinner mui-spinner-custom" id="next_img" onclick="run(this)"
+                value="3">下一张</button>
+            <div style="padding: 3px">
+                <button type="button" class="mui-btn mui-btn-success" style="width: 150px;" onclick="run(this)"
+                    value="4">查看她的图集
+                    <span class="mui-badge mui-badge-primary" id="img_quantity">null</span>
+                </button>
+            </div>
+        </div>
+        <p>图片均来源于网络，如有版权问题请联系作者删除！<br>如发现色情、暴力等违法图片，请联系站长举报<br>
+            邮箱：175005995@qq.com
+        </p>
+    </center>
+</body>
+
+</html>

@@ -48,7 +48,7 @@
             </div>
             <!--内容区-->
             <div class="mui-card-content">
-                <img src="https://file.zhfblog.top/%E6%A3%AE%E7%BD%97%E8%B4%A2%E5%9B%A2/X-010_004.jpg" id="slct_img">
+                <img src="./img/NOWLOADING.gif" id="slct_img">
             </div>
             <!--页脚，放置补充信息或支持的操作-->
             <div class="mui-card-footer">
@@ -63,11 +63,27 @@
             </div>
             <!--内容区-->
             <div class="mui-card-content">
-                <img src="https://file.zhfblog.top/%E6%A3%AE%E7%BD%97%E8%B4%A2%E5%9B%A2/X-010_004.jpg" id="fzly_img">
+                <img src="./img/NOWLOADING.gif" id="fzly_img">
             </div>
             <!--页脚，放置补充信息或支持的操作-->
             <div class="mui-card-footer">
-                <button type="button" class="mui-btn mui-btn-primary" onclick="window.open('./风之领域')">进入：风之领域</button>
+                <button type="button" class="mui-btn mui-btn-primary" onclick="window.open('./风之领域')"> 进入：风之领域</button>
+                <button type="button" class="mui-btn mui-btn-success">进入：她的图集</button>
+            </div>
+        </div>
+
+        <div class="mui-card">
+            <!--页眉，放置标题-->
+            <div class="mui-card-header">
+                桜桃喵
+            </div>
+            <!--内容区-->
+            <div class="mui-card-content">
+                <img src="./img/NOWLOADING.gif" id="ytm_img">
+            </div>
+            <!--页脚，放置补充信息或支持的操作-->
+            <div class="mui-card-footer">
+                <button type="button" class="mui-btn mui-btn-primary" onclick="window.open('./collection/?organization=桜桃喵')">进入：桜桃喵</button>
                 <button type="button" class="mui-btn mui-btn-success">进入：她的图集</button>
             </div>
         </div>
@@ -93,6 +109,17 @@
             data_json = JSON.parse(data);
             console.log(data_json);
             document.getElementById("fzly_img").src = data_json['data'][0]['img_url'];
+            console.log(data_json['data'][0]['img_url'])
+        })
+
+        
+        mui.get("./桜桃喵/api/get_img.php",{
+            "num":1,
+            "random":Math.floor(Math.random()*100000)
+        },function (data){
+            data_json = JSON.parse(data);
+            console.log(data_json);
+            document.getElementById("ytm_img").src = data_json['data'][0]['img_url'];
             console.log(data_json['data'][0]['img_url'])
         })
     }
