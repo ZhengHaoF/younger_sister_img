@@ -3,125 +3,89 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <meta charset="UTF-8">
-    <title>一生图片计划</title>
-    <script src="js/mui.min.js"></script>
-    <link href="css/mui.min.css" rel="stylesheet"/>
-    <style type="text/css">
-        *{
-            margin:0;
-            padding:0;
-        }
-        body {
-            width:100%;
-        }
-        button{
-            width:100%;
-            margin: 10px;
-            font-size:50px;
-        }
-        #main{
-            margin:0 auto;
-            width: 80%;
-        }
-        .mui-card-content{
-            padding: 20px;
-            text-align:center;
-        }
-        .mui-card-content img{
-            max-height:500px;
-            max-width: 100%;
-        }
-        @media screen and (max-width:1200px){
-            button{
-                height:50px;
-                
-            }
+    <title>一生资源计划</title>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
+    <link href="bootstrap-4.6.0-dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body{
+
         }
     </style>
 </head>
 <body>
-    <div id="main">
-        <div class="mui-card">
-            <!--页眉，放置标题-->
-            <div class="mui-card-header">
-                森罗财团
-            </div>
-            <!--内容区-->
-            <div class="mui-card-content">
-                <img src="./img/NOWLOADING.gif" id="slct_img">
-            </div>
-            <!--页脚，放置补充信息或支持的操作-->
-            <div class="mui-card-footer">
-                <button type="button" class="mui-btn mui-btn-primary" onclick="window.open('./森罗财团')">进入：森萝财团</button>
-                <button type="button" class="mui-btn mui-btn-success">进入：她的图集</button>
-            </div>
-        </div>
-        <div class="mui-card">
-            <!--页眉，放置标题-->
-            <div class="mui-card-header">
-                风之领域
-            </div>
-            <!--内容区-->
-            <div class="mui-card-content">
-                <img src="./img/NOWLOADING.gif" id="fzly_img">
-            </div>
-            <!--页脚，放置补充信息或支持的操作-->
-            <div class="mui-card-footer">
-                <button type="button" class="mui-btn mui-btn-primary" onclick="window.open('./风之领域')"> 进入：风之领域</button>
-                <button type="button" class="mui-btn mui-btn-success">进入：她的图集</button>
+<div class="container">
+    <div class="jumbotron">
+        <h1>一生资源计划</h1>
+        <p>欢迎来到一生资源计划！(LPL)</p>
+        <span>Welcome to looking at pictures for a lifetime</span>
+    </div>
+    <div class="row">
+        <div class="col-xl-6 col-lg-6" style="padding-bottom: 30px">
+            <div class="card">
+                <div class="card-header">风之领域</div>
+                <div class="card-body">
+                    <img src="img/NOWLOADING.gif" class="img-fluid" id="fzly">
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary float-left" onclick="goImgGroup('风之领域')">进入图集</button>
+                    <button  class="btn  float-right btn-success" onclick="nextImg('风之领域')">下一张</button>
+                </div>
             </div>
         </div>
-
-        <div class="mui-card">
-            <!--页眉，放置标题-->
-            <div class="mui-card-header">
-                桜桃喵
-            </div>
-            <!--内容区-->
-            <div class="mui-card-content">
-                <img src="./img/NOWLOADING.gif" id="ytm_img">
-            </div>
-            <!--页脚，放置补充信息或支持的操作-->
-            <div class="mui-card-footer">
-                <button type="button" class="mui-btn mui-btn-primary" onclick="window.open('./collection/?organization=桜桃喵')">进入：桜桃喵</button>
-                <button type="button" class="mui-btn mui-btn-success">进入：她的图集</button>
+        <div class="col-xl-6 col-lg-6" style="padding-bottom: 30px">
+            <div class="card">
+                <div class="card-header">桜桃喵</div>
+                <div class="card-body">
+                    <img src="img/NOWLOADING.gif" class="img-fluid" id="ytm">
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary float-left" goImgGroup>进入图集</button>
+                    <button class="btn float-right btn-success" onclick="nextImg('桜桃喵')">下一张</button>
+                </div>
             </div>
         </div>
     </div>
-    <button type="button" class="mui-btn mui-btn-success">开源地址</button>
+</div>
 </body>
-<script type="text/javascript">
-    window.onload = function(){
-        mui.get("./森罗财团/api/get_img.php",{
+<script>
+    window.onload = ()=>{
+        nextImg("风之领域");
+        nextImg("桜桃喵");
+    }
+    function nextImg(organization){
+        if (organization === "风之领域"){
+            loadImg("fzly","./img/NOWLOADING.gif");
+        }else if (organization==="桜桃喵"){
+            loadImg("ytm","./img/NOWLOADING.gif");
+        }
+        $.get("http://girl.zhfblog.top/collection/api/get_img.php",{
             "num":1,
-            "random":Math.floor(Math.random()*100000)
+            "organization":organization,
+            "random":Math.floor(Math.random()*100)
         },function (data){
-            data_json = JSON.parse(data);
-            console.log(data_json);
-            document.getElementById("slct_img").src = data_json['data'][0]['img_url'];
-            console.log(data_json['data'][0]['img_url'])
+            let data_json = JSON.parse(data);
+            if(data_json["status"]===200){
+                console.log(data_json)
+                let url = data_json['data'][0]['img_url'];
+                if (organization === "风之领域"){
+                    loadImg("fzly",url);
+                }else if (organization==="桜桃喵"){
+                    loadImg("ytm",url);
+                }
+            }
         })
-
-        mui.get("./风之领域/api/get_img.php",{
-            "num":1,
-            "random":Math.floor(Math.random()*100000)
-        },function (data){
-            data_json = JSON.parse(data);
-            console.log(data_json);
-            document.getElementById("fzly_img").src = data_json['data'][0]['img_url'];
-            console.log(data_json['data'][0]['img_url'])
-        })
-
-        
-        mui.get("./桜桃喵/api/get_img.php",{
-            "num":1,
-            "random":Math.floor(Math.random()*100000)
-        },function (data){
-            data_json = JSON.parse(data);
-            console.log(data_json);
-            document.getElementById("ytm_img").src = data_json['data'][0]['img_url'];
-            console.log(data_json['data'][0]['img_url'])
-        })
+    }
+    function loadImg(id,url){
+        let img = new Image();
+        img.src = "./img/NO-143_39.jpg";
+        img.onload = function (){
+            document.getElementById(id).src = url;
+        }
+        console.log("图片加载完成")
+    }
+    function goImgGroup(organization){
+        window.open("http://girl.zhfblog.top/collection/?organization=" + organization);
     }
 </script>
 </html>

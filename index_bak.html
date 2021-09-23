@@ -1,142 +1,127 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <!--//手机端自适应-->
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
-    <!--//手机端自适应-->
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <meta charset="UTF-8">
-    <title>图片辨认</title>
+    <title>一生图片计划</title>
     <script src="js/mui.min.js"></script>
     <link href="css/mui.min.css" rel="stylesheet"/>
-    <script>
-        window.url_girl_id;//套图编号
-        window.img_id; //一套图片的数量
-        window.img_number_card; // 具体图片名称
-        //手机端自适应
-        (function (doc, win) {
-            var docEl = doc.documentElement,
-                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-                recalc = function () {
-                    var clientWidth = docEl.clientWidth;
-                    if (!clientWidth) return;
-                    if (clientWidth >= 750) {
-                        docEl.style.fontSize = '100px';
-                    } else {
-                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
-                    }
-                };
-            if (!doc.addEventListener) return;
-            win.addEventListener(resizeEvt, recalc, false);
-            doc.addEventListener('DOMContentLoaded', recalc, false);
-        })(document, window);
-
-        window.onload = function () {
-            alert("请把你看一眼就怦然心动的图增加到“超级好看”分类中去哦");
-            get_img()
+    <style type="text/css">
+        *{
+            margin:0;
+            padding:0;
         }
+        body {
+            width:100%;
+        }
+        button{
+            width:100%;
+            margin: 10px;
+            font-size:50px;
+        }
+        #main{
+            margin:0 auto;
+            width: 80%;
+        }
+        .mui-card-content{
+            padding: 20px;
+            text-align:center;
+        }
+        .mui-card-content img{
+            max-height:500px;
+            max-width: 100%;
+        }
+        @media screen and (max-width:1200px){
+            button{
+                height:50px;
 
-        function get_img() {
-            //document.getElementById("img_tip").innerText = "正在识别···";
-            var json_t;
-            var url = "img_url.json"/*json文件url，本地的就写本地的位置，如果是服务器的就写服务器的路径*/
-            var request = new XMLHttpRequest();
-            request.open("get", url);/*设置请求方法与路径*/
-            request.send(null);/*不发送数据到服务器*/
-            request.onload = function () {/*XHR对象获取到返回信息后执行*/
-                json_t = JSON.parse(request.responseText);
-                var girl_id = Math.floor(Math.random() * json_t.data.length);
-                window.url_girl_id = json_t.data[girl_id].ID; //套图编号
-                window.img_id = json_t.data[girl_id].num;  //一套图片的数量
-                var url_img_id = Math.floor(Math.random() * img_id) + 1;
-                img_number_card = url_girl_id + "_" + url_img_id;  //具体图片名称
-                var url = "https://file.zhfblog.top/younger_sister_img/" + img_number_card + ".jpg";
-                console.log(url);
-                //ger_img_color(img_number_card); 由于傻逼同源策略，暂时想不出来怎么搞
-                var w = window.outerWidth;
-                var h = window.outerHeight - 200;
-                document.getElementById("g_img").innerHTML = "<img src='" + url + "' style='max-width: " + w + "px" + ";max-height: " + h + "px" + "'>"
-                document.getElementById("img_quantity").innerText = img_id + "张";
-                //get_img_tip("younger_sister_img/"+img_number_card+".jpg"); //获取图像标签//用处不大暂时放弃
             }
-
         }
-
-        /*
-        由于傻逼同源策略，暂时想不出来怎么搞
-        function get_img_color(img_name) {
-                //获取图片主色调
-            //参数拼接
-            var url = "https://web-1253780623.picsh.myqcloud.com/younger_sister_img/" + img_name + ".jpg?imageAve";
-            mui.get(url,function (data) {
-                //console.log(data.RGB); //返回是JSON字符串
-                var img_code = data.RGB; //颜色16进制
-                document.body.style.backgroundColor = img_code.replace("0x","#");
-            });
-        }
-        */
-        /*
-        //获取图像标签
-        用处不大，暂时放弃
-        function get_img_tip(img_name) {
-            var all_tip = "";//所有标签
-            mui.post("./API/img_discern.php", {
-                "key":img_name
-            },function (data) {
-                var img_tip_json = JSON.parse(data);
-                var img_tip_len = img_tip_json['Labels'].length;
-                for (var i=0;i<img_tip_len-1;i++){
-                    //console.log(img_tip_json['Labels'][i]['Name'])
-                    all_tip = all_tip +img_tip_json['Labels'][i]['Name'] + " ";
-                }
-                document.getElementById("img_tip").innerText =all_tip
-            })
-        }
-        */
-
-
-        function run(img_num) {
-            mui.toast("图片编号" + window.url_girl_id + "_" + window.img_id + "已经提交", {duration: '500ms', type: 'div'});
-            if (img_num == 4) {
-
-                window.open(window.location.protocol + "//" + window.location.host + "/younger_sister_img/img_group.php?" + "img_group=" + url_girl_id + "&img_group_num=" + img_id)
-            }
-            console.log(window.url_girl_id + "_" + window.img_id);
-            console.log(img_num);
-            mui.post('./get_comment.php', {
-                    "img_number_card": window.img_number_card,      //图片ID
-                    "img_comment": img_num //图片评论
-                }, function (data) {
-                    //服务器返回响应，根据响应结果，分析是否登录成功；
-                    console.log(data)
-                }
-            );
-            get_img()
-        }
-    </script>
+    </style>
 </head>
 <body>
-    <div>
-        <div id="g_img">正在加载···</div>
-        <p id="img_tip"></p>
-        <button type="button" class="mui-btn mui-btn-danger" onclick="run(this.value)" value="1">超级好看</button>
-        <button type="button" class="mui-btn mui-btn-warning" onclick="run(this.value)" value="2">十分好看</button>
-        <button type="button" class="mui-btn mui-btn-royal" onclick="run(this.value)" value="3">挺好看</button>
-        <div style="padding: 3px">
-            <button type="button" class="mui-btn mui-btn-success" onclick="run(this.value)" value="4">查看她的图集
-                <span class="mui-badge mui-badge-primary" id="img_quantity">null</span>
-            </button>
-            <a href="./nice_img" target="_blank">
-                <button type="button" class="mui-btn mui-btn-primary">精品区</button>
-            </a>
-            <a href="./face_blindness">
-                <button type="button" class="mui-btn mui-btn-royal" value="3">记忆测试</button>
-            </a>
+    <div id="main">
+        <div class="mui-card">
+            <!--页眉，放置标题-->
+            <div class="mui-card-header">
+                森罗财团
+            </div>
+            <!--内容区-->
+            <div class="mui-card-content">
+                <img src="./img/NOWLOADING.gif" id="slct_img">
+            </div>
+            <!--页脚，放置补充信息或支持的操作-->
+            <div class="mui-card-footer">
+                <button type="button" class="mui-btn mui-btn-primary" onclick="window.open('./collection/?organization=森罗财团')">进入：森萝财团</button>
+                <button type="button" class="mui-btn mui-btn-success">进入：她的图集</button>
+            </div>
+        </div>
+        <div class="mui-card">
+            <!--页眉，放置标题-->
+            <div class="mui-card-header">
+                风之领域
+            </div>
+            <!--内容区-->
+            <div class="mui-card-content">
+                <img src="./img/NOWLOADING.gif" id="fzly_img">
+            </div>
+            <!--页脚，放置补充信息或支持的操作-->
+            <div class="mui-card-footer">
+                <button type="button" class="mui-btn mui-btn-primary" onclick="window.open('./collection/?organization=风之领域')"> 进入：风之领域</button>
+                <button type="button" class="mui-btn mui-btn-success">进入：她的图集</button>
+            </div>
+        </div>
+
+        <div class="mui-card">
+            <!--页眉，放置标题-->
+            <div class="mui-card-header">
+                桜桃喵
+            </div>
+            <!--内容区-->
+            <div class="mui-card-content">
+                <img src="./img/NOWLOADING.gif" id="ytm_img">
+            </div>
+            <!--页脚，放置补充信息或支持的操作-->
+            <div class="mui-card-footer">
+                <button type="button" class="mui-btn mui-btn-primary" onclick="window.open('./collection/?organization=桜桃喵')">进入：桜桃喵</button>
+                <button type="button" class="mui-btn mui-btn-success">进入：她的图集</button>
+            </div>
         </div>
     </div>
-    <p>图片均来源于网络，如有版权问题请联系作者删除！<br>如发现色情、暴力等违法图片，请联系站长举报<br>
-        邮箱：mynamezhf@gmail.com
-    </p>
+    <button type="button" class="mui-btn mui-btn-success">开源地址</button>
 </body>
+<script type="text/javascript">
+    window.onload = function(){
+        mui.get("./森罗财团/api/get_img.php",{
+            "num":1,
+            "random":Math.floor(Math.random()*100000)
+        },function (data){
+            data_json = JSON.parse(data);
+            console.log(data_json);
+            document.getElementById("slct_img").src = data_json['data'][0]['img_url'];
+            console.log(data_json['data'][0]['img_url'])
+        })
+
+        mui.get("./风之领域/api/get_img.php",{
+            "num":1,
+            "random":Math.floor(Math.random()*100000)
+        },function (data){
+            data_json = JSON.parse(data);
+            console.log(data_json);
+            document.getElementById("fzly_img").src = data_json['data'][0]['img_url'];
+            console.log(data_json['data'][0]['img_url'])
+        })
+
+
+        mui.get("./桜桃喵/api/get_img.php",{
+            "num":1,
+            "random":Math.floor(Math.random()*100000)
+        },function (data){
+            data_json = JSON.parse(data);
+            console.log(data_json);
+            document.getElementById("ytm_img").src = data_json['data'][0]['img_url'];
+            console.log(data_json['data'][0]['img_url'])
+        })
+    }
+</script>
 </html>
