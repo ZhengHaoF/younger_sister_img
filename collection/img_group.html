@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="css/normalize.css">
     <script src="js/jquery-1.12.4.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        !function(p){"use strict";!function(t){var s=window,e=document,i=p,c="".concat("https:"===e.location.protocol?"https://":"http://","sdk.51.la/js-sdk-pro.min.js"),n=e.createElement("script"),r=e.getElementsByTagName("script")[0];n.type="text/javascript",n.setAttribute("charset","UTF-8"),n.async=!0,n.src=c,n.id="LA_COLLECT",i.d=n;var o=function(){s.LA.ids.push(i)};s.LA?s.LA.ids&&o():(s.LA=p,s.LA.ids=[],o()),r.parentNode.insertBefore(n,r)}()}({id:"JTNpQfO9smkJFsGq",ck:"JTNpQfO9smkJFsGq"});
+    </script>
     <style>
         #gallery-wrapper {
             position: relative;
@@ -65,77 +68,77 @@
 </head>
 
 <body>
-    <div id="app">
-        <section id="gallery-wrapper">
-            <article class="white-panel" name="img_block" v-for="(item,index) in url_list">
-                <img src="./img/NOWLOADING.gif" class="thumb" alt="" @click="jump_original_image(item['original_image_url'])">
-                <h1>图片{{index + 1}}</h1>
-                <p>来源：{{item['img_name'].split("_")[0]}}</p>
-            </article>
-        </section>
-    </div>
+<div id="app">
+    <section id="gallery-wrapper">
+        <article class="white-panel" name="img_block" v-for="(item,index) in url_list">
+            <img src="./img/NOWLOADING.gif" class="thumb" alt="" @click="jump_original_image(item['original_image_url'])">
+            <h1>图片{{index + 1}}</h1>
+            <p>来源：{{item['img_name'].split("_")[0]}}</p>
+        </article>
+    </section>
+</div>
 
-    <script>
-        const vm = new Vue({
-            el: "#app",
-            data: {
-                url_list: []
-            },
-            methods: {
-                get_img() {
-                    let img_organization = decodeURI(this.getQueryVariable("img_organization"));
-                    let organization = decodeURI(this.getQueryVariable("organization"));
-                    $.get("./api/get_img_group_url.php", {
-                        "img_organization": img_organization,
-                        "organization":organization
-                    }, data => {
-                        if (JSON.parse(data)['status'] == 200) {
-                            for (i = 0; i < JSON.parse(data)['data'].length; i++)
-                                vm.url_list.push(JSON.parse(data)['data'][i]);
-                        }
-                    })
-                },
-                jump_original_image(original_image_url){
-                    window.open(original_image_url);
-                },
-                getQueryVariable(variable) {
-                    var query = window.location.search.substring(1);
-                    var vars = query.split("&");
-                    for (var i = 0; i < vars.length; i++) {
-                        var pair = vars[i].split("=");
-                        if (pair[0] == variable) {
-                            return pair[1];
-                        }
+<script>
+    const vm = new Vue({
+        el: "#app",
+        data: {
+            url_list: []
+        },
+        methods: {
+            get_img() {
+                let img_organization = decodeURI(this.getQueryVariable("img_organization"));
+                let organization = decodeURI(this.getQueryVariable("organization"));
+                $.get("./api/get_img_group_url.php", {
+                    "img_organization": img_organization,
+                    "organization":organization
+                }, data => {
+                    if (JSON.parse(data)['status'] == 200) {
+                        for (i = 0; i < JSON.parse(data)['data'].length; i++)
+                            vm.url_list.push(JSON.parse(data)['data'][i]);
                     }
-                    return false;
-                }
+                })
             },
-            created() {
-                this.get_img();
-            }
-        })
-
-        //图片懒加载
-        var all_img_block;
-        window.onload = function () {
-            all_img_block = document.getElementsByName("img_block")
-        }
-        window.onscroll = function () {
-            show_img();
-        }
-        function show_img(){
-            var visibleAreaHeight = document.documentElement.clientHeight; // 获取屏幕可视高度
-            var scrollLen = document.documentElement.scrollTop//获取浏览器窗口顶部与文档顶部之间的距离，也就是滚动条滚动的距离
-            if (scrollLen = Math.floor(scrollLen)) { //减少循环次数
-                for (var i = 0; i < all_img_block.length; i++) {
-                    if (all_img_block[i].offsetTop - scrollLen < visibleAreaHeight && all_img_block[i].offsetTop - scrollLen >= -50) {
-                        all_img_block[i].getElementsByTagName("img")[0].src = vm.url_list[i]['img_url'];
-                        console.log(i)
+            jump_original_image(original_image_url){
+                window.open(original_image_url);
+            },
+            getQueryVariable(variable) {
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split("=");
+                    if (pair[0] == variable) {
+                        return pair[1];
                     }
                 }
+                return false;
+            }
+        },
+        created() {
+            this.get_img();
+        }
+    })
+
+    //图片懒加载
+    var all_img_block;
+    window.onload = function () {
+        all_img_block = document.getElementsByName("img_block")
+    }
+    window.onscroll = function () {
+        show_img();
+    }
+    function show_img(){
+        var visibleAreaHeight = document.documentElement.clientHeight; // 获取屏幕可视高度
+        var scrollLen = document.documentElement.scrollTop//获取浏览器窗口顶部与文档顶部之间的距离，也就是滚动条滚动的距离
+        if (scrollLen = Math.floor(scrollLen)) { //减少循环次数
+            for (var i = 0; i < all_img_block.length; i++) {
+                if (all_img_block[i].offsetTop - scrollLen < visibleAreaHeight && all_img_block[i].offsetTop - scrollLen >= -50) {
+                    all_img_block[i].getElementsByTagName("img")[0].src = vm.url_list[i]['img_url'];
+                    console.log(i)
+                }
             }
         }
-    </script>
+    }
+</script>
 </body>
 
 </html>

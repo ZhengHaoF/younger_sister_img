@@ -6,12 +6,11 @@
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <link href="bootstrap-4.6.0-dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="baidu-site-verification" content="code-0fy35UmvWv" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <style>
-        body{
-
-        }
-    </style>
+    <script>
+        !function(p){"use strict";!function(t){var s=window,e=document,i=p,c="".concat("https:"===e.location.protocol?"https://":"http://","sdk.51.la/js-sdk-pro.min.js"),n=e.createElement("script"),r=e.getElementsByTagName("script")[0];n.type="text/javascript",n.setAttribute("charset","UTF-8"),n.async=!0,n.src=c,n.id="LA_COLLECT",i.d=n;var o=function(){s.LA.ids.push(i)};s.LA?s.LA.ids&&o():(s.LA=p,s.LA.ids=[],o()),r.parentNode.insertBefore(n,r)}()}({id:"JTNpQfO9smkJFsGq",ck:"JTNpQfO9smkJFsGq"});
+    </script>
 </head>
 <body>
 <div class="container">
@@ -19,14 +18,16 @@
         <h1>一生资源计划</h1>
         <p>欢迎来到一生资源计划！(LPL)</p>
         <p>Welcome to looking at pictures for a lifetime</p>
-       <p>交流QQ群：857994945</p>
+        <p>这两天网站似乎不太稳定，建议加群反馈BUG</p>
+        <p>交流QQ群：857994945</p>
+        <p>声明：本网站图片全部来自于互联网，经过AI初筛，理论上不会有色情图片，尺度应该和某音某手差不多，如发现违规或侵权图片，请联系1715005995@qq.com做删除处理</p>
     </div>
     <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" style="padding-bottom: 30px">
             <div class="card">
                 <div class="card-header">风之领域</div>
                 <div class="card-body">
-                    <img src="img/NOWLOADING.gif" class="img-fluid rounded" id="fzly">
+                    <img src="img/NOWLOADING.gif" class="img-fluid rounded" id="风之领域">
                 </div>
                 <div class="card-footer">
                     <button class="btn btn-primary float-left" onclick="goImgGroup('风之领域')">进入图集</button>
@@ -38,7 +39,7 @@
             <div class="card">
                 <div class="card-header">桜桃喵</div>
                 <div class="card-body">
-                    <img src="img/NOWLOADING.gif" class="img-fluid rounded" id="ytm">
+                    <img src="img/NOWLOADING.gif" class="img-fluid rounded" id="桜桃喵">
                 </div>
                 <div class="card-footer">
                     <button class="btn btn-primary float-left" onclick="goImgGroup('桜桃喵')">进入图集</button>
@@ -46,21 +47,35 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" style="padding-bottom: 30px">
+            <div class="card">
+                <div class="card-header">兔玩映画</div>
+                <div class="card-body">
+                    <img src="img/NOWLOADING.gif" class="img-fluid rounded" id="兔玩映画">
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary float-left" onclick="goImgGroup('兔玩映画')">进入图集</button>
+                    <button class="btn float-right btn-success" onclick="nextImg('兔玩映画')">下一张</button>
+                </div>
+            </div>
+        </div>
     </div>
     <button class="btn btn-primary float-left" onclick="window.open('https://easydoc.net/s/54958543')">接口文档</button>
     <button class="btn float-right btn-success" onclick="window.open('https://gitee.com/ZHFHZ/younger_sister_img')">开源代码</button>
 </div>
-</body>
 <script>
     window.onload = ()=>{
         nextImg("风之领域");
         nextImg("桜桃喵");
+        nextImg("兔玩映画")
     }
     function nextImg(organization){
         if (organization === "风之领域"){
-            loadImg("fzly","./img/NOWLOADING.gif");
+            loadImg("风之领域","./img/NOWLOADING.gif");
         }else if (organization==="桜桃喵"){
-            loadImg("ytm","./img/NOWLOADING.gif");
+            loadImg("桜桃喵","./img/NOWLOADING.gif");
+        }else if (organization==="兔玩映画"){
+            loadImg("兔玩映画","./img/NOWLOADING.gif");
         }
         $.get("http://girl.zhfblog.top/collection/api/get_img.php",{
             "num":1,
@@ -72,9 +87,11 @@
                 console.log(data_json)
                 let url = data_json['data'][0]['img_url'];
                 if (organization === "风之领域"){
-                    loadImg("fzly",url);
+                    loadImg("风之领域",url);
                 }else if (organization==="桜桃喵"){
-                    loadImg("ytm",url);
+                    loadImg("桜桃喵",url);
+                }else if (organization==="兔玩映画"){
+                    loadImg("兔玩映画",url);
                 }
             }
         })
@@ -91,4 +108,5 @@
         window.open("http://girl.zhfblog.top/collection/?organization=" + organization);
     }
 </script>
+</body>
 </html>
